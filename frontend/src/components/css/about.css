@@ -1,0 +1,14 @@
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.aboutus {
+     background-color: #A9A9A9;
+     padding: 1rem;
+}
+.workradius {
+    background-color: #dcdcdc;
+    padding: 1rem;
+}

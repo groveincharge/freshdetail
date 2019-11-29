@@ -1,0 +1,26 @@
+.menu-nav {
+    display: flex;
+    justify-content: space-round;
+    align-items: center;
+    min-height: 10vh;
+    background-color:rgb(72,79,82);
+    color: #fff;
+  }
+  .nav-links {
+    display: flex;
+    justify-content: space-round;
+    align-items: center;
+    list-style: none;
+    color: #ffffff;
+  }
+  .menu-nav h3{
+    margin-left: 5%;
+  }
+  li {
+    padding: 1rem;
+    color: #ffffff;
+    margin-right:5%;
+  }
+  .spacer{
+    flex: 1;
+  }

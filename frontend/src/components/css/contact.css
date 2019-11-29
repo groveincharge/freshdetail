@@ -1,0 +1,17 @@
+.ContactForm {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: #A9A9A9;
+ }
+ .PostContact {
+    display: none;
+ }
+ .ContactIntro {
+    width: 40%;
+ }
+ .FormId {
+    background-color: #dcdcdc;
+    flex: 1;
+ }

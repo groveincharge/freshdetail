@@ -1,0 +1,9 @@
+.Pickups {
+    display: flex;
+    justify-content: space-round;
+    align-items: center;
+    min-height: 10vh;
+    background-color: #A9A9A9;
+    color:#fff;
+    padding: 1rem;
+  }
