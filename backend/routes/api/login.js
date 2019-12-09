@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
       req.session.errors = errors;
-      console.log(`req.flash from POST login: ${req.flash('error_msg')}`)
+      console.log(`req.flash from POST login: ${req.flash('notlogin_msg')}`)
       errors.errors.map(error => {
         console.log(`Login error from POST: ${JSON.stringify(error.msg)}`)
       })
@@ -89,20 +89,20 @@ router.post('/', async (req, res, next) => {
 
       if (!lastVisit && req.isAuthenticated()) {
    // res.setHeader('Content-Type', 'text/plain')
-    //console.log(`flash: ${req.flash('login_msg')[0]}`);
+    console.log(`flash: ${req.flash('login_msg')[0]}`);
    // res.end('Welcome, first time visitor!')
    next()
   } else
      if (lastVisit && req.isAuthenticated()) {
    // res.setHeader('Content-Type', 'text/plain')
-   //console.log(`flash: ${req.flash('login_msg')[0]}`);
+   console.log(`flash: ${req.flash('login_msg')[0]}`);
    // res.end('Welcome back! Nothing much changed since your last visit at ' + lastVisit + '.')
    next()
   } 
  else {
       //return res.redirect('/');
-     //console.log(`flash: ${req.flash('error_msg')[0]}`);
-     next
+     console.log(`flash: ${req.flash('notlogin_msg')[0]}`);
+     next()
   };
     
    })

@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   if (!errors.isEmpty()) {
       req.session.errors = errors;
-       console.log(`req.flash from POST: ${req.flash('error_msg')}`)
+       console.log(`req.flash from POST: ${req.flash('notregister_msg')}`)
       errors.errors.map(error => {
         console.log(`Register error from POST: ${JSON.stringify(error.msg)}`)
       })
@@ -68,6 +68,7 @@ router.post('/', async (req, res) => {
                                       message: 'User Saved to DB',
                                       person: result
                                     })
+                        console.log(`flash: ${req.flash('register_msg')[0]}`)
                                   })
                                   .catch(err => {
                                     res.status(500).json({

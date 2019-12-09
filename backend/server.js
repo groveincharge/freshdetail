@@ -38,7 +38,10 @@ const app = express();
   app.use(passport.session());
    app.use(flash());
     app.use((req, res, next) => {
-      res.locals.login_msg = req.flash('login_msg','You Have Successful Logged In!');
+      res.locals.register_msg = req.flash('register_msg','Registration Successful!');
+      res.locals.notregister_msg = req.flash('notregister_msg','Registration Unsuccessful!');
+      res.locals.login_msg = req.flash('login_msg','Logged in Successfully!');
+      res.locals.notlogin_msg = req.flash('notlogin_msg','Login was Unsuccessful!');
       res.locals.logout_msg = req.flash('logout_msg','You Have Successful Logged Out!');
       res.locals.error_msg = req.flash('error_msg','Invalid Credentials');
       next() 
