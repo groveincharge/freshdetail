@@ -10,7 +10,8 @@ import axios from 'axios';
                     lastName: " ",
                     email: " ",
                     username: " ",
-                    password: " "
+                    password: " ",
+                    confirmPassword: " "
                   };
   
       this.handleChange = this.handleChange.bind(this);
@@ -38,7 +39,8 @@ import axios from 'axios';
         lastName: " ",
         email: " ",
         username: " ",
-        password: " " 
+        password: " ",
+        confirmPassword: " " 
       });
       })
       .catch(err => console.log(err));
@@ -78,6 +80,12 @@ import axios from 'axios';
            <><br/>
             Password:
           <input type="text" name="password" value={this.state.password} 
+          onChange={this.handleChange} required/>
+          </><br/><br/>
+
+            <><br/>
+          confirm Password:
+          <input type="text" name="confirmPassword" value={this.state.confirmPassword} 
           onChange={this.handleChange} required/>
           </><br/><br/>
 

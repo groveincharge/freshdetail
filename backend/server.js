@@ -20,7 +20,6 @@ const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.use(flash());
 
    //passport and session middleware
    app.use(session({
@@ -37,16 +36,13 @@ const app = express();
     }));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  app.use((req, res, next) => {
-    res.locals.login_msg = req.flash('login_msg','You Have Successful Logged In!');
-    res.locals.logout_msg = req.flash('logout_msg','You Have Successful Logged Out!');
+   app.use(flash());
+    app.use((req, res, next) => {
+      res.locals.login_msg = req.flash('login_msg','You Have Successful Logged In!');
+      res.locals.logout_msg = req.flash('logout_msg','You Have Successful Logged Out!');
       res.locals.error_msg = req.flash('error_msg','Invalid Credentials');
-      res.locals.isAuthenticated = req.isAuthenticated();
-      //res.locals.logout = req.logout();
-      res.locals.user = req.user;
       next() 
-  });
+    });
 
 //models & routes
 require('./models/User');
