@@ -11,11 +11,13 @@ router.get('/', (req, res, next) => {
     
     if (req.isAuthenticated()){
     req.logout();
-   // console.log(`flash: ${req.flash('logout_msg')[0]}`);
+     console.log(`flash: ${req.flash('logout_msg')[0]}`);
     return res.redirect('/');
+    next()
      }
-    // console.log(`flash: ${req.flash('error_msg')[0]}`);
+      console.log(`flash: ${req.flash('error_msg')[0]}`);
      return res.redirect('/')
+     next()
    });
 
 module.exports = router;

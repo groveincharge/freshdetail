@@ -20,33 +20,38 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res, next) => {
 
-  // Optionally define keys to sign cookie values
-  // to prevent client tampering
-  let keys = [process.env.SESSION_KEY]
+  //const { body: { user } } = req;
+       const user = req.body;
+
+// Optionally define keys to sign cookie values
+// to prevent client tampering
+    const keys = [process.env.SESSION_KEY]
 
     // Create a cookies object
-  let cookies = new Cookies(req, res, { keys: keys })
+  const cookies = new Cookies(req, res, { keys: keys })
  
   // Get a cookie
-  let lastVisit = cookies.get('LastVisit', { signed: true })
- 
-  // Set the cookie to a value
-  cookies.set('LastVisit', new Date().toISOString(), { signed: true })
+   //const lastVisit = cookies.get('LastVisit', { signed: true })
 
-  await check('email', 'Invalid Credentials').isEmail().run(req)
+  // Set the cookie to a value
+  //cookies.set('LastVisit', new Date().toISOString(), { signed: true })
+
+  
+ await check('email', 'Invalid Credentials').isEmail().run(req);
   await check('password', 'Invalid Credentials').isLength({ min: 6 })
-             .withMessage('password must be at least six chars long')
-             .matches(/\d/)
+            .withMessage('password must be at least six chars long')
+            .matches(/\d/)
             .withMessage('password must contain at least one number')
             .run(req);
             
         req.session.user = {};
         req.session.isLoaded = false;
-        req.session.lastVisit = null;
         req.session.errors = null;
+       // lastVisit = null;
 
    // Finds the validation errors in this request and wraps them in an object with handy functions
-  const errors = validationResult(req);
+  let errors = validationResult(req);
+  console.log(`errors ${JSON.stringify(errors)}`)
   if (!errors.isEmpty()) {
       req.session.errors = errors;
       console.log(`req.flash from POST login: ${req.flash('notlogin_msg')}`)
@@ -54,17 +59,15 @@ router.post('/', async (req, res, next) => {
         console.log(`Login error from POST: ${JSON.stringify(error.msg)}`)
       })
     return res.status(422).json({ errors: errors.array() });
-  }else{
+  }
+  else
+  {
 
   //const { body: { user } } = req;
   const user = req.body;
-       req.session.user = {};
-       req.session.isLoaded = false;
-       req.session.lastVisit = null;
 
    console.log('Inside POST /login callback\n');
    console.log(`POST user ${JSON.stringify(user)}\n`);
-   req.session.user = user;
   console.log(`req.session ${JSON.stringify(req.session)}\n`);
   console.log(`req.sessionID ${req.sessionID}\n`);
 
@@ -77,7 +80,7 @@ router.post('/', async (req, res, next) => {
     req.login(user, (err) => {
       req.session.user = user;
       req.session.isLoaded = true;
-      req.session.lastVisit = lastVisit;
+
       console.log('Inside req.login() callback\n');
        console.log(`req.session.cookie ${JSON.stringify(req.session.cookie)}\n`);
       console.log(`req.session ${JSON.stringify(req.session)}\n`);
@@ -87,25 +90,29 @@ router.post('/', async (req, res, next) => {
       console.log(`req.user: ${JSON.stringify(req.user)}\n`);
      // return res.send('You were authenticated & logged in!\n');
 
-      if (!lastVisit && req.isAuthenticated()) {
-   // res.setHeader('Content-Type', 'text/plain')
-    console.log(`flash: ${req.flash('login_msg')[0]}`);
-   // res.end('Welcome, first time visitor!')
-   next()
-  } else
-     if (lastVisit && req.isAuthenticated()) {
-   // res.setHeader('Content-Type', 'text/plain')
-   console.log(`flash: ${req.flash('login_msg')[0]}`);
-   // res.end('Welcome back! Nothing much changed since your last visit at ' + lastVisit + '.')
-   next()
-  } 
- else {
-      //return res.redirect('/');
-     console.log(`flash: ${req.flash('notlogin_msg')[0]}`);
-     next()
-  };
-    
-   })
+      // Get a cookie
+     const lastVisit = cookies.get('LastVisit', { signed: true })
+
+    if ((!lastVisit) && req.isAuthenticated()) {
+    res.setHeader('Content-Type', 'text/plain')
+    console.log('Welcome, first time visitor!')
+    cookies.set('LastVisit', new Date().toISOString(), { signed: true })
+    res.end('Welcome, first time visitor!')
+    } 
+    else
+      if ((lastVisit) && req.isAuthenticated()) {
+         res.setHeader('Content-Type', 'text/plain')
+         console.log('Welcome back! Nothing much changed since your last visit at ' + lastVisit + '.')
+         cookies.set('LastVisit', new Date().toISOString(), { signed: true })
+         res.end('Welcome back! Nothing much changed since your last visit at ' + lastVisit + '.')
+       }  
+     else
+        {
+    res.setHeader('Content-Type', 'text/plain')
+    console.log(`Login failed`)
+    res.end(`Login failed`)
+     }
+  })
 
   })(req, res, next);
    

@@ -30,10 +30,11 @@ const app = express();
     },
     store: new FileStore(),
     secret: process.env.SESSION_KEY,
-        cookie: {maxAge: 600000, path: '/', httpOnly: true, secure: false},
+    cookie: {maxAge: 600000, path: '/', httpOnly: true, secure: false},
     resave: false,
     saveUninitialized: false
     }));
+   
   app.use(passport.initialize());
   app.use(passport.session());
    app.use(flash());
@@ -42,7 +43,7 @@ const app = express();
       res.locals.notregister_msg = req.flash('notregister_msg','Registration Unsuccessful!');
       res.locals.login_msg = req.flash('login_msg','Logged in Successfully!');
       res.locals.notlogin_msg = req.flash('notlogin_msg','Login was Unsuccessful!');
-      res.locals.logout_msg = req.flash('logout_msg','You Have Successful Logged Out!');
+      res.locals.logout_msg = req.flash('logout_msg','You Have Successfully Logged Out!');
       res.locals.error_msg = req.flash('error_msg','Invalid Credentials');
       next() 
     });

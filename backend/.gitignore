@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# session
+/session
+
 # production
 /build
 
